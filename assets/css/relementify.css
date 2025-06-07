@@ -1,0 +1,103 @@
+/* Elementor editor */
+
+#elementor-presets-panel {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-inline: var(--e-a-border);
+	background-color: var(--e-a-bg-default);
+	display: flex;
+	flex-direction: column;
+	translate: 100%;
+	transition-duration: 1s;
+}
+
+html[dir="rtl"] #elementor-presets-panel {
+	translate: -100%;
+}
+
+.elementor-presets-panel-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border-block-end: var(--e-a-border);
+	height: 48px;
+}
+
+.elementor-presets-panel-header h2 {
+	flex: 1;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--e-a-color-txt-accent);
+}
+
+.elementor-presets-panel-header button.elementor-header-button {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	text-align: center;
+	cursor: pointer;
+}
+
+.elementor-presets-panel-content {
+	flex: 1;
+	overflow-y: auto;
+}
+
+.elementor-presets-panel-content summary {
+	color: var(--e-a-color-txt-accent);
+	font-weight: bold;
+	padding: 15px;
+	border-block-end: var(--e-a-border);
+	cursor: pointer;
+	user-select: none;
+}
+
+/* .elementor-presets-panel-content nav, */
+.elementor-presets-panel-content details:not(:last-of-type) .elementor-presets-panel-category {
+	border-block-end: var(--e-a-border);
+}
+
+/* Animate panel opening */
+.elementor-presets-panel-content details::details-content {
+	opacity: 0;
+	height: 0;
+	overflow-y: clip;
+	transition: content-visibility 0.5s allow-discrete, opacity 0.5s, height 0.5s;
+}
+.elementor-presets-panel-content details[open]::details-content {
+	opacity: 1;
+	height: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+	.elementor-presets-panel-content details {
+		interpolate-size: allow-keywords;
+	}
+}
+/* /Animate panel opening */
+
+.elementor-presets-panel-content details img {
+	max-width: 100%;
+}
+
+.elementor-presets-panel-category {
+	min-height: 150px;
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
+	padding: 10px;
+}
+
+.elementor-presets-panel-category button {
+	appearance: none;
+	border: none;
+	background: none;
+	max-width: 100%;
+    cursor: pointer;
+}
+
+#elementor-panel-header-toggle-preset {
+	cursor: pointer;
+	inset-inline-end: 0;
+}
