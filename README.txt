@@ -1,5 +1,5 @@
 === Relementify ===
-Contributors: ramiy
+Contributors: lanagordiievska
 Tags: elementor, widgets, presets, design
 Requires at least: 6.5
 Tested up to: 6.8
@@ -18,11 +18,31 @@ Need inspiration for your Elementor design? Looking for presets to help you styl
 
 With Canva-like panels inside Elementor, it's easy to get inspirational new designs for your page.
 
-Simple select a widget, open the presets panel, and choose a design. The plugin will apply the styles on the exiting widget.
+Simply select a widget, open the presets panel, and choose a design. The plugin will apply the styles on the existing widget.
 
-= How does it work? =
+= 🔥 How it work? =
 
-Relementify has dozens of designs for each widget. When you choose a design, the plugin uses Elementors' builtin functionality to paste styles.
+When you edit an Elementor widget, a new "presets" panel is added to Elementor. This new panel displays dozens of designs for each widget. By clicking a specific design, the styles applied on the widget.
+
+Note that the plugin uses Elementors' builtin functionality to paste styles. Meaning that you can Undo these styles and even see the change in the Elementor History panel.
+
+= 🚀 Enhance Your Website =
+
+- **Save Hours of Design Time**: Instantly apply professional widget designs without starting from scratch.
+- **Design Like a Pro – No Skills Required**: Get access to beautifully styled presets even if you’re not a designer.
+- **Built Directly Inside Elementor**: Enjoy a seamless Canva-like preset panel, right within the Elementor editor.
+- **Consistent, Polished Design Across Your Site**: Easily match styles and create cohesive, professional layouts.
+- **Hundreds of Ready-to-Use Presets**: From headings to buttons to icon boxes — browse and apply in seconds.
+- **Zero Learning Curve**: Just click, preview, and apply. No need to learn new tools or interfaces.
+- **Built for Creative Inspiration**: Hit a design block? Relementify offers fresh ideas and layout styles anytime.
+- **Mobile-Optimized Presets**: Every preset is responsive and optimized for mobile right out of the box.
+- **Perfect for Freelancers, Agencies & DIYers**: Whether you build one site or dozens, Relementify helps you move faster and smarter.
+
+== External services ==
+
+This plugin connects to the Relementify API to obtain predefined designs for Elementor widgets. The retrieved data displayed inside the Elementor Editor.
+
+When the user opens the preset panel, an API request is sent to the server with a widget slug, to retrieve designs only for that widget.
 
 == Screenshots ==
 
@@ -33,11 +53,31 @@ Relementify has dozens of designs for each widget. When you choose a design, the
 
 = Does it work with Elementor Pro? =
 
-Yes. Relementify works with both Elementor and Elementor Pro.
+Yes. Relementify works with Elementor, Elementor Pro and all the Elementor addons that have widgets.
 
 = Can I save my own design to the preset panel? =
 
-Currently no, but it's in the product roadmap.
+Currently no, but it's in our roadmap. In future releases you will be able to save presets locally on the website and on the Relementify cloud.
+
+= Do I need to know how to code? =
+
+No. Relementify extends Elementor to provide and easy-to-use graphical interface, from which you can choose presets without using code.
+
+= Do I need to know how to design? =
+
+No, you can choose between professionally designed widgets and focus on creating your own website.
+
+= Where is the data stored? =
+
+The plugin doesn’t store data on your website. Widget presets are stored and managed at relementify.com. The plugin connects to the Relementify server to load the available designs and display them inside Elementor.
+
+= How does the plugin affect my website performance? =
+
+It doesn't. This plugin is loaded only inside the Elementor Editor, therefore it doesn't affect frontend performance.
+
+= How can I become a Contributor ? =
+
+You can also help translating the plugin to you language via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/relementify/).
 
 == Changelog ==
 
