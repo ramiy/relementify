@@ -2,9 +2,7 @@
 /**
  * Plugin Name: Relementify
  * Description: Enhance your Elementor widgets' designs with widget presets in a canva-like interface.
- * Plugin URI: https://relementify.com/
  * Version: 1.0.0
- * Author: Relementify.com
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: relementify
@@ -61,6 +59,9 @@ final class Relementify {
 	}
 
 	public function admin_notice_missing_main_plugin(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+
 		$message = sprintf(
 			'<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>',
 			sprintf(
@@ -75,6 +76,9 @@ final class Relementify {
 	}
 
 	public function admin_notice_minimum_elementor_version(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+
 		$message = sprintf(
 			'<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>',
 			sprintf(
@@ -90,6 +94,9 @@ final class Relementify {
 	}
 
 	public function admin_notice_minimum_php_version(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+
 		$message = sprintf(
 			'<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>',
 			sprintf(
@@ -119,13 +126,13 @@ final class Relementify {
 	}
 
 	public function enqueue_elementor_editor_scripts(): void {
-		$translation_wp_info = json_encode( [
+		$translation_wp_info = [
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'assetsUrl' => esc_url( plugins_url( 'assets', __FILE__ ) ),
 			'pro' => false,
-		] );
+		];
 
-		$translation_strings = json_encode( [
+		$translation_strings = [
 			// Widgets Panel
 			'presetsToggleButton' => esc_html__( 'Widget Presets', 'relementify' ),
 			// Presets Panel
@@ -137,7 +144,11 @@ final class Relementify {
 			'presetsCategoryPro' => esc_html__( 'Pro Presets', 'relementify' ),
 			// No Presets
 			'noPresets' => esc_html__( 'This widget has no presets.', 'relementify' ),
-		] );
+		];
+
+		$editor_inline_script = "window.relementify ??= {};\n";
+		$editor_inline_script .= sprintf( "relementify.wpInfo = %s;\n", wp_json_encode( $translation_wp_info ) );
+		$editor_inline_script .= sprintf( "relementify.translations = %s;\n", wp_json_encode( $translation_strings ) );
 
 		wp_enqueue_script(
 			'relementify-editor',
@@ -149,19 +160,7 @@ final class Relementify {
 
 		wp_add_inline_script(
 			'relementify-editor',
-			"window.relementify ??= {};",
-			'before'
-		);
-
-		wp_add_inline_script(
-			'relementify-editor',
-			"relementify.wpInfo = $translation_wp_info;",
-			'before'
-		);
-
-		wp_add_inline_script(
-			'relementify-editor',
-			"relementify.translations = $translation_strings;",
+			$editor_inline_script,
 			'before'
 		);
 	}
