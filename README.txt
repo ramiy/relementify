@@ -12,7 +12,7 @@ Choose from hundreds of predefined designs for each of your Elementor widgets.
 
 == Description ==
 
-Relementify provides Elementor users with predefined designs at the widget level.
+[Relementify](https://relementify.com/) provides Elementor users with predefined designs at the widget level.
 
 Need inspiration for your Elementor design? Looking for presets to help you style your widgets? Relementify is the tool for you.
 
@@ -47,8 +47,9 @@ When the user opens the preset panel, an API request is sent to the server with 
 
 == Screenshots ==
 
-1. Presets panel
-2. Choose from dozens of designs
+1. Choose from dozens of ready-to-use designs.
+2. Presets panel for Heading widget.
+3. Presets panel for Button widget.
 
 == Frequently Asked Questions ==
 
