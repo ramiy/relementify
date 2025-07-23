@@ -83,6 +83,11 @@ You can help translate the plugin into your language via [translate.wordpress.or
 
 == Changelog ==
 
+= 2.0.0 =
+
+* Add custom masks.
+* Add custom shape dividers.
+
 = 1.0.0 =
 
 * Initial public release.

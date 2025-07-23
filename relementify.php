@@ -13,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+define( 'RELEMENTIFY__FILE', __FILE__ );
+define( 'RELEMENTIFY_URL', plugins_url( '/', RELEMENTIFY__FILE ) );
+define( 'RELEMENTIFY_PATH', plugin_dir_path( RELEMENTIFY__FILE ) );
+
 final class Relementify {
 	const VERSION = '1.0.0';
 	const MINIMUM_ELEMENTOR_VERSION = '3.20.0';
@@ -112,6 +116,19 @@ final class Relementify {
 	}
 
 	public function init(): void {
+		$this->load();
+		$this->hooks();
+	}
+
+	public function load(): void {
+		require_once RELEMENTIFY_PATH . 'includes/masks.php';
+		require_once RELEMENTIFY_PATH . 'includes/shape-dividers.php';
+	}
+
+	public function hooks(): void {
+		new Relementify\Masks();
+		new Relementify\ShapeDividers();
+
 		add_action( 'elementor/editor/after_enqueue_styles', [ $this, 'enqueue_elementor_editor_styles' ] );
 		add_action( 'elementor/editor/after_enqueue_scripts', [ $this, 'enqueue_elementor_editor_scripts' ] );
 	}
