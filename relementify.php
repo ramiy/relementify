@@ -13,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+define( 'RELEMENTIFY__FILE', __FILE__ );
+define( 'RELEMENTIFY_URL', plugins_url( '/', RELEMENTIFY__FILE ) );
+define( 'RELEMENTIFY_PATH', plugin_dir_path( RELEMENTIFY__FILE ) );
+
 final class Relementify {
 	const VERSION = '1.0.0';
 	const MINIMUM_ELEMENTOR_VERSION = '3.20.0';
@@ -112,6 +116,17 @@ final class Relementify {
 	}
 
 	public function init(): void {
+		$this->load();
+		$this->hooks();
+	}
+
+	public function load(): void {
+		require_once RELEMENTIFY_PATH . 'includes/context-menu.php';
+	}
+
+	public function hooks(): void {
+		new Relementify\ContextMenu();
+
 		add_action( 'elementor/editor/after_enqueue_styles', [ $this, 'enqueue_elementor_editor_styles' ] );
 		add_action( 'elementor/editor/after_enqueue_scripts', [ $this, 'enqueue_elementor_editor_scripts' ] );
 	}
@@ -128,6 +143,7 @@ final class Relementify {
 	public function enqueue_elementor_editor_scripts(): void {
 		$translation_wp_info = [
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'ajaxNonce' => wp_create_nonce( 'local_presets' ),
 			'assetsUrl' => esc_url( plugins_url( 'assets', __FILE__ ) ),
 			'pro' => false,
 		];
@@ -142,13 +158,28 @@ final class Relementify {
 			// Preset Categories
 			'presetsCategoryBasic' => esc_html__( 'Basic Presets', 'relementify' ),
 			'presetsCategoryPro' => esc_html__( 'Pro Presets', 'relementify' ),
+			'presetsCategoryMyLocal' => esc_html__( 'My Local Presets', 'relementify' ),
+			'presetsCategoryMyCloud' => esc_html__( 'My Cloud Presets', 'relementify' ),
 			// No Presets
 			'noPresets' => esc_html__( 'This widget has no presets.', 'relementify' ),
+			'noLocalPresets' => esc_html__( "You haven't saved local presets yet.", 'relementify' ),
+			'noCloudPresets' => esc_html__( "You haven't saved cloud presets yet.", 'relementify' ),
+			// Context Menu
+			'savePresetLocally' => esc_html__( 'Save Preset Locally', 'relementify' ),
+			'savePresetToCloud' => esc_html__( 'Save Preset to Cloud', 'relementify' ),
+			'presetNotSavedLocally' => esc_html__( 'Preset not saved. Please click the widget, and then try saving it as a local preset.', 'relementify' ),
 		];
+
+		$local_presets = json_encode( get_option( 'relementify_local_presets' ) );
+
+		if ( ! is_array( $local_presets ) ) {
+			$local_presets = [];
+		}
 
 		$editor_inline_script = "window.relementify ??= {};\n";
 		$editor_inline_script .= sprintf( "relementify.wpInfo = %s;\n", wp_json_encode( $translation_wp_info ) );
 		$editor_inline_script .= sprintf( "relementify.translations = %s;\n", wp_json_encode( $translation_strings ) );
+		$editor_inline_script .= sprintf( "relementify.localPresets = %s;\n", wp_json_encode( $local_presets ) );
 
 		wp_enqueue_script(
 			'relementify-editor',
