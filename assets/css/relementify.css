@@ -1,4 +1,4 @@
-/* Elementor editor */
+/* Presets Panel */
 
 #elementor-presets-panel {
 	position: absolute;
@@ -15,6 +15,8 @@
 html[dir="rtl"] #elementor-presets-panel {
 	translate: -100%;
 }
+
+/* Presets Panel Header */
 
 .elementor-presets-panel-header {
 	display: flex;
@@ -45,6 +47,8 @@ html[dir="rtl"] #elementor-presets-panel {
 	overflow-y: auto;
 }
 
+/* Presets Panel Content */
+
 .elementor-presets-panel-content summary {
 	color: var(--e-a-color-txt-accent);
 	font-weight: bold;
@@ -54,7 +58,6 @@ html[dir="rtl"] #elementor-presets-panel {
 	user-select: none;
 }
 
-/* .elementor-presets-panel-content nav, */
 .elementor-presets-panel-content details:not(:last-of-type) .elementor-presets-panel-category {
 	border-block-end: var(--e-a-border);
 }
@@ -66,38 +69,122 @@ html[dir="rtl"] #elementor-presets-panel {
 	overflow-y: clip;
 	transition: content-visibility 0.5s allow-discrete, opacity 0.5s, height 0.5s;
 }
+
 .elementor-presets-panel-content details[open]::details-content {
 	opacity: 1;
 	height: auto;
 }
+
 @media (prefers-reduced-motion: no-preference) {
 	.elementor-presets-panel-content details {
 		interpolate-size: allow-keywords;
 	}
 }
+
 /* /Animate panel opening */
 
-.elementor-presets-panel-content details img {
-	max-width: 100%;
-}
-
-.elementor-presets-panel-category {
+.elementor-presets-panel-content .elementor-presets-panel-category {
 	min-height: 150px;
 	display: flex;
-    flex-direction: column;
-    gap: 10px;
+	flex-direction: column;
+	gap: 10px;
 	padding: 10px;
 }
 
-.elementor-presets-panel-category button {
-	appearance: none;
-	border: none;
-	background: none;
-	max-width: 100%;
-    cursor: pointer;
+.elementor-presets-panel-content details .widget-preset {
+	position: relative;
 }
 
-#elementor-panel-header-toggle-preset {
+.elementor-presets-panel-content details .widget-preset .widget-preset-actions {
+	position: absolute;
+	inset-inline-end: 0;
+	inset-block-start: 0;
+	display: none;
+	gap: 1px;
+	flex-direction: row-reverse;
+}
+
+.elementor-presets-panel-content details .widget-preset:hover {
+	outline: 1px solid var(--e-a-btn-bg-primary);
+}
+
+.elementor-presets-panel-content details .widget-preset:hover .widget-preset-actions {
+	display: flex;
+}
+
+.elementor-presets-panel-content details .widget-preset button {
+	--tooltip-triangle-size: 7px;
+	--tooltip-bg-color: #333;
+	--tooltip-text-color: #fff;
+	position: relative;
+	appearance: none;
+	border: none;
+	background-color: var(--e-a-btn-bg-primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	width: 24px;
+	aspect-ratio: 1;
+	cursor: pointer;
+	transition: 1s;
+}
+
+.elementor-presets-panel-content details .widget-preset button:hover {
+	background-color: var(--e-a-btn-bg-primary-hover);
+}
+
+.elementor-presets-panel-content details .widget-preset .widget-preset-actions button::before {
+	content: '';
+	position: absolute;
+	inset-block-start: -8px;
+	inset-inline-start: 50%;
+	transform: translateX(calc(var(--direction-multiplier) * -50%));
+	border-inline-start: var(--tooltip-triangle-size) solid var(--e-a-bg-default);
+	border-inline-end: var(--tooltip-triangle-size) solid var(--e-a-bg-default);
+	border-block-start: var(--tooltip-triangle-size) solid var(--tooltip-bg-color);
+	background-color: var(--tooltip-bg-color);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.elementor-presets-panel-content details .widget-preset .widget-preset-actions button::after {
+	content: attr(aria-label);
+	position: absolute;
+	inset-block-end: calc(100% + 8px);
+	inset-inline-start: 0%;
+	transform: translateX(calc(var(--direction-multiplier) * -50%));
+	background-color: var(--tooltip-bg-color);
+	color: var(--tooltip-text-color);
+	padding: 8px 12px;
+	border-radius: 4px;
+	white-space: nowrap;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.elementor-presets-panel-content details .widget-preset .widget-preset-actions button:nth-of-type(1)::after {
+	inset-inline-end: -5px;
+	inset-inline-start: auto;
+	transform: translateX(0);
+}
+
+.elementor-presets-panel-content details .widget-preset .widget-preset-actions button:hover::before,
+.elementor-presets-panel-content details .widget-preset .widget-preset-actions button:hover::after {
+	opacity: 1;
+	visibility: visible;
+}
+
+.elementor-presets-panel-content details img {
+	max-width: 100%;
+	vertical-align: middle; /* Remove spacing below the image */
+}
+
+/* Presets Toggle Button */
+
+#elementor-panel-preset-toggle-button {
 	cursor: pointer;
 	inset-inline-end: 0;
 }

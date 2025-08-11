@@ -3,7 +3,7 @@ Contributors: lanagordiievska
 Tags: elementor, widgets, presets, design
 Requires at least: 6.5
 Tested up to: 6.8
-Stable tag: 1.0.0
+Stable tag: 2.0.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -19,6 +19,8 @@ Need inspiration for your Elementor design? Looking for presets to help you styl
 With Canva-like panels inside Elementor, it’s easy to discover fresh, inspirational designs for your pages.
 
 Simply select a widget, open the presets panel, and choose a design. The plugin will apply the styles on the existing widget.
+
+https://www.youtube.com/watch?v=oE9OACwFbjs
 
 = 🔥 How It Works =
 
@@ -39,6 +41,8 @@ Note that the plugin uses Elementor’s builtin functionality to paste styles. M
 - **Perfect for Freelancers, Agencies & DIYers**: Whether you build one site or dozens, Relementify helps you move faster and smarter.
 - **No Peformance Impact**: Every preset is responsive and optimized for mobile right out of the box.
 
+https://www.youtube.com/watch?v=I2y1dxHVrxY
+
 == External Services ==
 
 This plugin connects to the Relementify API to obtain predefined designs for Elementor widgets. The retrieved data is displayed inside the Elementor Editor.
@@ -47,7 +51,7 @@ When the user opens the preset panel, an API request is sent to the server with 
 
 == Screenshots ==
 
-1. Choose from dozens of ready-to-use designs.
+1. Choose from hundreds of ready-to-use designs.
 2. Presets panel for Heading widget.
 3. Presets panel for Button widget.
 
@@ -82,6 +86,10 @@ It doesn't. This plugin is loaded only inside the Elementor Editor, therefore it
 You can help translate the plugin into your language via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/relementify/).
 
 == Changelog ==
+
+= 2.0.0 =
+
+* New - Add the ability to to insert presets.
 
 = 1.0.0 =
 

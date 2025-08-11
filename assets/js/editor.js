@@ -4,7 +4,7 @@ window.addEventListener('elementor/init', () => {
 		// Widget panel.
 		widgetPanelWrapperID: 'elementor-panel',
 		widgetPanelHeaderID: 'elementor-panel-header',
-		widgetPanelPresetsToggleButtonID: 'elementor-panel-header-toggle-preset',
+		widgetPanelPresetsToggleButtonID: 'elementor-panel-preset-toggle-button',
 		// Preset panel.
 		presetPanelID: 'elementor-presets-panel',
 		presetPanelHeaderClass: 'elementor-presets-panel-header',
@@ -174,10 +174,15 @@ window.addEventListener('elementor/init', () => {
 
 	relementify.createPresetButton = (preset) => {
 		const content = (preset?.image !== false && preset?.image !== '')
-			? `<img src="${preset?.image}" loading="lazy" alt="${preset?.title}">`
+			? `<img src="${preset?.image}" loading="lazy" alt="${preset?.title}" onClick="relementify.applyPresetStyles(${preset?.id})" tabindex="0">`
 			: preset?.title;
 
-		return `<button type="button" class="widget-preset" onClick="relementify.applyPresetStyles(${preset?.id})">${content}</button>`;
+		const actionButtons = `<div class="widget-preset-actions">
+			<button type="button" onClick="relementify.applyPresetStyles(${preset?.id})" aria-label="${relementify.translations.applyPreset}"><i class="eicon-copy" aria-hidden="true"></i></button>
+			<button type="button" onClick="relementify.insertPreset(${preset?.id})" aria-label="${relementify.translations.insertPreset}"><i class="eicon-plus" aria-hidden="true"></i></button>
+		</div>`;
+
+		return `<div class="widget-preset">${content}${actionButtons}</div>`;
 	};
 
 	relementify.loadBasicPresets = async () => {
@@ -205,11 +210,136 @@ window.addEventListener('elementor/init', () => {
 	relementify.applyPresetStyles = async (id) => {
 		const storageKey = 'relementify-preset-styles';
 		const preset = relementify.getPresetsDataByID(id);
-
-		console.log('preset', preset);
-		elementorCommon.storage.set(storageKey, JSON.parse(preset.code));
-		$e.run('document/elements/paste-style', { storageKey, containers: Object.values(elementor.selection.elements) });
+		const presetCode = JSON.parse(preset.code);
+		presetCode.siteurl = relementify.wpInfo.restUrl;
+		elementorCommon.storage.set(storageKey, presetCode);
+		$e.run('document/elements/paste-style', {
+			storageKey,
+			containers: Object.values(elementor.selection.elements)
+		});
 	}
+
+	relementify.insertPreset = async (id) => {
+		const preset = relementify.getPresetsDataByID(id);
+		const presetCode = JSON.parse(preset.code);
+		const selectedContainers = elementor.selection.getElements();
+
+		let targetContainer;
+		let insertPosition;
+
+		if (selectedContainers.length > 0) {
+			const selectedContainer = selectedContainers[0];
+			const elType = selectedContainer.model.get('elType');
+
+			if (elType === 'widget') {
+				// Widget is selected - insert preset after it in the same parent container
+				targetContainer = selectedContainer.parent;
+				insertPosition = selectedContainer.view.getOption('_index') + 1;
+			} else if (elType === 'column' || elType === 'section' || elType === 'container') {
+				// Now widget is selected - insert preset at the end
+				targetContainer = selectedContainer;
+				insertPosition = undefined;
+			}
+		}
+
+		if (!targetContainer) {
+			return;
+		}
+
+		const elementData = relementify.extractElementDataFromPreset(presetCode);
+
+		if (!elementData) {
+			return;
+		}
+
+		const widgetData = {
+			id: elementorCommon.helpers.getUniqueId(),
+			elType: elementData.elType || 'widget',
+			widgetType: elementData.widgetType,
+			settings: { ...elementData.settings } || {}
+		};
+
+		// Update URLs if needed
+		if (presetCode.siteurl && relementify.wpInfo.restUrl) {
+			widgetData.settings = relementify.updateSettingsUrls(
+				widgetData.settings,
+				presetCode.siteurl,
+				relementify.wpInfo.restUrl
+			);
+		}
+
+		// Insert the widget with position
+		const createOptions = {
+			model: widgetData,
+			container: targetContainer
+		};
+
+		// Add position, if specified
+		if (insertPosition !== undefined) {
+			createOptions.options = { at: insertPosition };
+		}
+
+		const result = await $e.run('document/elements/create', createOptions);
+
+		// Select the newly created element
+		if (result && result.id) {
+			setTimeout(() => {
+				$e.run('document/elements/select', {
+					container: elementor.getContainer(result.id)
+				});
+			}, 100);
+		}
+	};
+
+	relementify.extractElementDataFromPreset = (presetCode) => {
+		if (presetCode.elements && presetCode.elements.length > 0) {
+			return presetCode.elements[0];
+		} else if (presetCode.elType && presetCode.widgetType) {
+			return presetCode;
+		}
+		return null;
+	};
+
+	// Improved URL update method with better error handling
+	relementify.updateSettingsUrls = (settings, oldUrl, newUrl) => {
+		if (!settings || typeof settings !== 'object') {
+			return settings;
+		}
+
+		try {
+			// Deep clone to avoid mutation
+			const updatedSettings = JSON.parse(JSON.stringify(settings));
+
+			const updateUrls = (obj) => {
+				if (!obj || typeof obj !== 'object') return;
+
+				for (const key in obj) {
+					if (!obj.hasOwnProperty(key)) continue;
+
+					const value = obj[key];
+
+					if (typeof value === 'string' && value.includes(oldUrl)) {
+						obj[key] = value.replace(new RegExp(oldUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), newUrl);
+					} else if (Array.isArray(value)) {
+						value.forEach(item => {
+							if (typeof item === 'object' && item !== null) {
+								updateUrls(item);
+							}
+						});
+					} else if (typeof value === 'object' && value !== null) {
+						updateUrls(value);
+					}
+				}
+			};
+
+			updateUrls(updatedSettings);
+			return updatedSettings;
+
+		} catch (error) {
+			console.error('Error updating URLs in settings:', error);
+			return settings; // Return original settings if update fails
+		}
+	};
 
 	relementify.syncPresets();
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Relementify
  * Description: Enhance your Elementor widgets' designs with widget presets in a canva-like interface.
- * Version: 1.0.0
+ * Version: 2.0.0
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: relementify
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Relementify {
-	const VERSION = '1.0.0';
+	const VERSION = '2.0.0';
 	const MINIMUM_ELEMENTOR_VERSION = '3.20.0';
 	const MINIMUM_PHP_VERSION = '7.4';
 
@@ -127,6 +127,7 @@ final class Relementify {
 
 	public function enqueue_elementor_editor_scripts(): void {
 		$translation_wp_info = [
+			'restUrl' => esc_url( rest_url() ),
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'assetsUrl' => esc_url( plugins_url( 'assets', __FILE__ ) ),
 			'pro' => false,
@@ -144,6 +145,9 @@ final class Relementify {
 			'presetsCategoryPro' => esc_html__( 'Pro Presets', 'relementify' ),
 			// No Presets
 			'noPresets' => esc_html__( 'This widget has no presets.', 'relementify' ),
+			// Preset Actions
+			'applyPreset' => esc_html__( 'Apply preset style', 'relementify' ),
+			'insertPreset' => esc_html__( 'Insert Preset', 'relementify' ),
 		];
 
 		$editor_inline_script = "window.relementify ??= {};\n";
