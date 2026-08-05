@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Relementify
  * Description: Enhance your Elementor widgets' designs with widget presets in a canva-like interface.
- * Version: 1.0.0
+ * Version: 2.0.0
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: relementify
@@ -18,7 +18,7 @@ define( 'RELEMENTIFY_URL', plugins_url( '/', RELEMENTIFY__FILE ) );
 define( 'RELEMENTIFY_PATH', plugin_dir_path( RELEMENTIFY__FILE ) );
 
 final class Relementify {
-	const VERSION = '1.0.0';
+	const VERSION = '2.0.0';
 	const MINIMUM_ELEMENTOR_VERSION = '3.20.0';
 	const MINIMUM_PHP_VERSION = '7.4';
 
@@ -142,6 +142,7 @@ final class Relementify {
 
 	public function enqueue_elementor_editor_scripts(): void {
 		$translation_wp_info = [
+			'restUrl' => esc_url( rest_url() ),
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'ajaxNonce' => wp_create_nonce( 'local_presets' ),
 			'assetsUrl' => esc_url( plugins_url( 'assets', __FILE__ ) ),
@@ -168,6 +169,9 @@ final class Relementify {
 			'savePresetLocally' => esc_html__( 'Save Preset Locally', 'relementify' ),
 			'savePresetToCloud' => esc_html__( 'Save Preset to Cloud', 'relementify' ),
 			'presetNotSavedLocally' => esc_html__( 'Preset not saved. Please click the widget, and then try saving it as a local preset.', 'relementify' ),
+			// Preset Actions
+			'applyPreset' => esc_html__( 'Apply preset style', 'relementify' ),
+			'insertPreset' => esc_html__( 'Insert Preset', 'relementify' ),
 		];
 
 		$local_presets = json_encode( get_option( 'relementify_local_presets' ) );
