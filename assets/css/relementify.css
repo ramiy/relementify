@@ -49,9 +49,17 @@ html[dir="rtl"] #elementor-presets-panel {
 
 /* Presets Panel Content */
 
+.elementor-presets-panel-content .elementor-presets-panel-category {
+	min-height: 150px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
+}
+
 .elementor-presets-panel-content summary {
 	color: var(--e-a-color-txt-accent);
-	font-weight: bold;
+	font-weight: 700;
 	padding: 15px;
 	border-block-end: var(--e-a-border);
 	cursor: pointer;
@@ -63,6 +71,7 @@ html[dir="rtl"] #elementor-presets-panel {
 }
 
 /* Animate panel opening */
+
 .elementor-presets-panel-content details::details-content {
 	opacity: 0;
 	height: 0;
@@ -76,20 +85,13 @@ html[dir="rtl"] #elementor-presets-panel {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+
 	.elementor-presets-panel-content details {
 		interpolate-size: allow-keywords;
 	}
 }
 
 /* /Animate panel opening */
-
-.elementor-presets-panel-content .elementor-presets-panel-category {
-	min-height: 150px;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	padding: 10px;
-}
 
 .elementor-presets-panel-content details .widget-preset {
 	position: relative;
@@ -135,7 +137,7 @@ html[dir="rtl"] #elementor-presets-panel {
 }
 
 .elementor-presets-panel-content details .widget-preset .widget-preset-actions button::before {
-	content: '';
+	content: "";
 	position: absolute;
 	inset-block-start: -8px;
 	inset-inline-start: 50%;

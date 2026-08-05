@@ -1,5 +1,4 @@
-window.addEventListener('elementor/init', () => {
-
+window.addEventListener( 'elementor/init', () => {
 	relementify.selectors = {
 		// Widget panel.
 		widgetPanelWrapperID: 'elementor-panel',
@@ -18,63 +17,63 @@ window.addEventListener('elementor/init', () => {
 		widgetPanelPresetButton: `
 			<button
 				type="button"
-				id="${relementify.selectors.widgetPanelPresetsToggleButtonID}"
+				id="${ relementify.selectors.widgetPanelPresetsToggleButtonID }"
 				class="elementor-header-button"
-				aria-label="${relementify.translations.presetsToggleButton}"
+				aria-label="${ relementify.translations.presetsToggleButton }"
 				onClick="relementify.togglePresetsPanelState()"
 			>
 				<img
-					src="${relementify.wpInfo.assetsUrl}/images/presets-button.svg"
+					src="${ relementify.wpInfo.assetsUrl }/images/presets-button.svg"
 					width="20"
 					height="20"
 					loading="lazy"
-					alt="${relementify.translations.presetsToggleButton}"
+					alt="${ relementify.translations.presetsToggleButton }"
 				>
 			</button>
 		`,
 		presetsPanel: `
-			<div id="${relementify.selectors.presetPanelID}">
-				<div class="${relementify.selectors.presetPanelHeaderClass}">
+			<div id="${ relementify.selectors.presetPanelID }">
+				<div class="${ relementify.selectors.presetPanelHeaderClass }">
 					<button
 						type="button"
-						id="${relementify.selectors.presetPanelSyncButtonID}"
+						id="${ relementify.selectors.presetPanelSyncButtonID }"
 						class="elementor-header-button"
-						aria-label="${relementify.translations.presetsSync}"
+						aria-label="${ relementify.translations.presetsSync }"
 						onClick="relementify.syncPresets()"
 					>
 						<img
-							src="${relementify.wpInfo.assetsUrl}/images/sync-button.svg"
+							src="${ relementify.wpInfo.assetsUrl }/images/sync-button.svg"
 							width="20"
 							height="20"
 							loading="lazy"
-							alt="${relementify.translations.presetsSync}"
+							alt="${ relementify.translations.presetsSync }"
 						>
 					</button>
-					<h2>${relementify.translations.presetsPanelHeading}</h2>
+					<h2>${ relementify.translations.presetsPanelHeading }</h2>
 					<button
 						type="button"
-						id="${relementify.selectors.presetPanelCloseButtonID}"
+						id="${ relementify.selectors.presetPanelCloseButtonID }"
 						class="elementor-header-button"
-						aria-label="${relementify.translations.presetsClosePanel}"
+						aria-label="${ relementify.translations.presetsClosePanel }"
 						onClick="relementify.closePresetsPanel()"
 					>
 						<img
-							src="${relementify.wpInfo.assetsUrl}/images/close-button.svg"
+							src="${ relementify.wpInfo.assetsUrl }/images/close-button.svg"
 							width="20"
 							height="20"
 							loading="lazy"
-							alt="${relementify.translations.presetsClosePanel}"
+							alt="${ relementify.translations.presetsClosePanel }"
 						>
 					</button>
 				</div>
-				<div class="${relementify.selectors.presetPanelContentClass}">
+				<div class="${ relementify.selectors.presetPanelContentClass }">
 					<details name="presets-category" open>
-						<summary>${relementify.translations.presetsCategoryBasic}</summary>
-						<div class="${relementify.selectors.presetPanelCategoryClass}" id="${relementify.selectors.presetPanelCategoryClass}-basic"></div>
+						<summary>${ relementify.translations.presetsCategoryBasic }</summary>
+						<div class="${ relementify.selectors.presetPanelCategoryClass }" id="${ relementify.selectors.presetPanelCategoryClass }-basic"></div>
 					</details>
 					<details name="presets-category">
-						<summary>${relementify.translations.presetsCategoryPro}</summary>
-						<div class="${relementify.selectors.presetPanelCategoryClass}" id="${relementify.selectors.presetPanelCategoryClass}-pro"></div>
+						<summary>${ relementify.translations.presetsCategoryPro }</summary>
+						<div class="${ relementify.selectors.presetPanelCategoryClass }" id="${ relementify.selectors.presetPanelCategoryClass }-pro"></div>
 					</details>
 				</div>
 			</div>
@@ -87,43 +86,43 @@ window.addEventListener('elementor/init', () => {
 
 	relementify.presetsData = null;
 
-	relementify.isWidgetPanel = (panel) => panel === 'widget';
+	relementify.isWidgetPanel = ( panel ) => panel === 'widget';
 
-	relementify.getCurrentWidget = () => Object.values(elementor.selection.elements).map((container) => container.model.toJSON({ remove: ['default'] }))[0].widgetType;
+	relementify.getCurrentWidget = () => Object.values( elementor.selection.elements ).map( ( container ) => container.model.toJSON( { remove: [ 'default' ] } ) )[ 0 ].widgetType;
 
 	relementify.getPresetsWidget = () => relementify.presetsWidget;
 
-	relementify.setPresetsWidget = (widget) => relementify.presetsWidget = widget;
+	relementify.setPresetsWidget = ( widget ) => ( relementify.presetsWidget = widget );
 
-	relementify.hasPresetsToggleButton = () => !(document.getElementById(relementify.selectors.widgetPanelPresetsToggleButtonID) === null);
+	relementify.hasPresetsToggleButton = () => ! ( document.getElementById( relementify.selectors.widgetPanelPresetsToggleButtonID ) === null );
 
-	relementify.addPresetsToggleButton = () => document.getElementById(relementify.selectors.widgetPanelHeaderID).insertAdjacentHTML('beforeend', relementify.templates.widgetPanelPresetButton);
+	relementify.addPresetsToggleButton = () => document.getElementById( relementify.selectors.widgetPanelHeaderID ).insertAdjacentHTML( 'beforeend', relementify.templates.widgetPanelPresetButton );
 
-	relementify.removePresetsToggleButton = () => document.getElementById(relementify.selectors.widgetPanelPresetsToggleButtonID)?.remove();
+	relementify.removePresetsToggleButton = () => document.getElementById( relementify.selectors.widgetPanelPresetsToggleButtonID )?.remove();
 
 	relementify.getPresetsPanelState = () => relementify.presetsPanelState;
 
-	relementify.setPresetsPanelState = (state) => relementify.presetsPanelState = state;
+	relementify.setPresetsPanelState = ( state ) => ( relementify.presetsPanelState = state );
 
-	relementify.createPresetsPanel = () => document.getElementById(relementify.selectors.widgetPanelWrapperID).insertAdjacentHTML('beforeend', relementify.templates.presetsPanel);
+	relementify.createPresetsPanel = () => document.getElementById( relementify.selectors.widgetPanelWrapperID ).insertAdjacentHTML( 'beforeend', relementify.templates.presetsPanel );
 
-	relementify.destroyPresetsPanel = () => document.getElementById(relementify.selectors.presetPanelID)?.remove();
+	relementify.destroyPresetsPanel = () => document.getElementById( relementify.selectors.presetPanelID )?.remove();
 
 	relementify.closePresetsPanel = () => {
-		relementify.setPresetsPanelState(false);
-		relementify.setPresetsWidget('');
+		relementify.setPresetsPanelState( false );
+		relementify.setPresetsWidget( '' );
 		relementify.destroyPresetsPanel();
 	};
 
 	relementify.openPresetsPanel = () => {
-		relementify.setPresetsPanelState(true);
+		relementify.setPresetsPanelState( true );
 		relementify.createPresetsPanel();
 		relementify.populatePresetsCategories();
 	};
 
 	relementify.togglePresetsPanelState = () => {
-		const newState = !relementify.getPresetsPanelState();
-		if (newState) {
+		const newState = ! relementify.getPresetsPanelState();
+		if ( newState ) {
 			relementify.openPresetsPanel();
 		} else {
 			relementify.closePresetsPanel();
@@ -132,28 +131,28 @@ window.addEventListener('elementor/init', () => {
 
 	relementify.getPresetsData = () => relementify.presetsData;
 
-	relementify.setPresetsData = (presets) => relementify.presetsData = presets;
+	relementify.setPresetsData = ( presets ) => ( relementify.presetsData = presets );
 
-	relementify.hasPresetsData = () => Array.isArray(relementify.presetsData);
+	relementify.hasPresetsData = () => Array.isArray( relementify.presetsData );
 
-	relementify.getPresetsDataByID = (id) => relementify.getPresetsData().find((preset) => parseInt(id) === preset.id);
+	relementify.getPresetsDataByID = ( id ) => relementify.getPresetsData().find( ( preset ) => parseInt( id ) === preset.id );
 
-	relementify.loadRemotePresets = async (widget = '') => {
+	relementify.loadRemotePresets = async ( widget = '' ) => {
 		let fullUrl = 'https://relementify.com/wp-json/relementify/v1/presets/';
-		if (widget) {
+		if ( widget ) {
 			const queryParams = { widget };
-			const queryString = new URLSearchParams(queryParams).toString();
-			fullUrl = `${fullUrl}?${queryString}`;
+			const queryString = new URLSearchParams( queryParams ).toString();
+			fullUrl = `${ fullUrl }?${ queryString }`;
 		}
 		const fetchOptions = { cache: 'no-cache' };
-		const remotePreset = await fetch(fullUrl, fetchOptions).then((response) => response.json());
+		const remotePreset = await fetch( fullUrl, fetchOptions ).then( ( response ) => response.json() );
 		return remotePreset;
 	};
 
 	relementify.syncPresets = async () => {
 		const remotePreset = await relementify.loadRemotePresets();
-		relementify.setPresetsData(remotePreset);
-		if (relementify.getPresetsPanelState()) {
+		relementify.setPresetsData( remotePreset );
+		if ( relementify.getPresetsPanelState() ) {
 			relementify.populatePresetsCategories();
 		}
 	};
@@ -164,91 +163,88 @@ window.addEventListener('elementor/init', () => {
 		relementify.loadProPresets();
 	};
 
-	relementify.getCategoryClass = (category) => `${relementify.selectors.presetPanelCategoryClass}-${category}`;
+	relementify.getCategoryClass = ( category ) => `${ relementify.selectors.presetPanelCategoryClass }-${ category }`;
 
 	relementify.clearCategories = () => {
-		const categories = ['basic', 'pro'];
-		const categoryElements = categories.map((category) => document.getElementById(relementify.getCategoryClass(category)));
-		categoryElements.forEach((categoryElement) => categoryElement.innerHTML = '');
+		const categories = [ 'basic', 'pro' ];
+		const categoryElements = categories.map( ( category ) => document.getElementById( relementify.getCategoryClass( category ) ) );
+		categoryElements.forEach( ( categoryElement ) => ( categoryElement.innerHTML = '' ) );
 	};
 
-	relementify.createPresetButton = (preset) => {
-		const content = (preset?.image !== false && preset?.image !== '')
-			? `<img src="${preset?.image}" loading="lazy" alt="${preset?.title}" onClick="relementify.applyPresetStyles(${preset?.id})" tabindex="0">`
-			: preset?.title;
+	relementify.createPresetButton = ( preset ) => {
+		const content =
+			preset?.image !== false && preset?.image !== ''
+				? `<img src="${ preset?.image }" loading="lazy" alt="${ preset?.title }" onClick="relementify.applyPresetStyles(${ preset?.id })" tabindex="0">`
+				: preset?.title;
 
 		const actionButtons = `<div class="widget-preset-actions">
-			<button type="button" onClick="relementify.applyPresetStyles(${preset?.id})" aria-label="${relementify.translations.applyPreset}"><i class="eicon-copy" aria-hidden="true"></i></button>
-			<button type="button" onClick="relementify.insertPreset(${preset?.id})" aria-label="${relementify.translations.insertPreset}"><i class="eicon-plus" aria-hidden="true"></i></button>
+			<button type="button" onClick="relementify.applyPresetStyles(${ preset?.id })" aria-label="${ relementify.translations.applyPreset }"><i class="eicon-copy" aria-hidden="true"></i></button>
+			<button type="button" onClick="relementify.insertPreset(${ preset?.id })" aria-label="${ relementify.translations.insertPreset }"><i class="eicon-plus" aria-hidden="true"></i></button>
 		</div>`;
 
-		return `<div class="widget-preset">${content}${actionButtons}</div>`;
+		return `<div class="widget-preset">${ content }${ actionButtons }</div>`;
 	};
 
 	relementify.loadBasicPresets = async () => {
 		const currentCategory = 'basic';
 		const currentWidget = relementify.getCurrentWidget();
-		const widgetPreset = (relementify.hasPresetsData())
-			? relementify.getPresetsData().filter((preset) => preset.widget === currentWidget && preset.category === currentCategory)
-			: [];
-		const presetsHtml = widgetPreset.map((preset) => relementify.createPresetButton(preset)).join('');
-		const categoryClass = relementify.getCategoryClass(currentCategory);
-		document.getElementById(categoryClass).insertAdjacentHTML('beforeend', presetsHtml || relementify.translations.noPresets);
+		const widgetPreset = relementify.hasPresetsData() ? relementify.getPresetsData().filter( ( preset ) => preset.widget === currentWidget && preset.category === currentCategory ) : [];
+		const presetsHtml = widgetPreset.map( ( preset ) => relementify.createPresetButton( preset ) ).join( '' );
+		const categoryClass = relementify.getCategoryClass( currentCategory );
+		document.getElementById( categoryClass ).insertAdjacentHTML( 'beforeend', presetsHtml || relementify.translations.noPresets );
 	};
 
 	relementify.loadProPresets = () => {
 		const currentCategory = 'pro';
 		const currentWidget = relementify.getCurrentWidget();
-		const widgetPreset = (relementify.hasPresetsData())
-			? relementify.getPresetsData().filter((preset) => preset.widget === currentWidget && preset.category === currentCategory)
-			: [];
-		const presetsHtml = widgetPreset.map((preset) => relementify.createPresetButton(preset)).join('');
-		const categoryClass = relementify.getCategoryClass(currentCategory);
-		document.getElementById(categoryClass).insertAdjacentHTML('beforeend', presetsHtml || relementify.translations.noPresets);
+		const widgetPreset = relementify.hasPresetsData() ? relementify.getPresetsData().filter( ( preset ) => preset.widget === currentWidget && preset.category === currentCategory ) : [];
+		const presetsHtml = widgetPreset.map( ( preset ) => relementify.createPresetButton( preset ) ).join( '' );
+		const categoryClass = relementify.getCategoryClass( currentCategory );
+		document.getElementById( categoryClass ).insertAdjacentHTML( 'beforeend', presetsHtml || relementify.translations.noPresets );
 	};
 
-	relementify.applyPresetStyles = async (id) => {
+	relementify.applyPresetStyles = async ( id ) => {
 		const storageKey = 'relementify-preset-styles';
-		const preset = relementify.getPresetsDataByID(id);
-		const presetCode = JSON.parse(preset.code);
+		const preset = relementify.getPresetsDataByID( id );
+		const presetCode = JSON.parse( preset.code );
 		presetCode.siteurl = relementify.wpInfo.restUrl;
-		elementorCommon.storage.set(storageKey, presetCode);
-		$e.run('document/elements/paste-style', {
+		elementorCommon.storage.set( storageKey, presetCode );
+		$e.run( 'document/elements/paste-style', {
 			storageKey,
-			containers: Object.values(elementor.selection.elements)
-		});
-	}
+			containers: Object.values( elementor.selection.elements ),
+		} );
+	};
 
-	relementify.insertPreset = async (id) => {
-		const preset = relementify.getPresetsDataByID(id);
-		const presetCode = JSON.parse(preset.code);
+	relementify.insertPreset = async ( id ) => {
 		const selectedContainers = elementor.selection.getElements();
 
 		let targetContainer;
 		let insertPosition;
 
-		if (selectedContainers.length > 0) {
-			const selectedContainer = selectedContainers[0];
-			const elType = selectedContainer.model.get('elType');
+		if ( selectedContainers.length > 0 ) {
+			const selectedContainer = selectedContainers[ 0 ];
+			const elType = selectedContainer.model.get( 'elType' );
 
-			if (elType === 'widget') {
+			if ( elType === 'widget' ) {
 				// Widget is selected - insert preset after it in the same parent container
 				targetContainer = selectedContainer.parent;
-				insertPosition = selectedContainer.view.getOption('_index') + 1;
-			} else if (elType === 'column' || elType === 'section' || elType === 'container') {
+				insertPosition = selectedContainer.view.getOption( '_index' ) + 1;
+			} else if ( elType === 'column' || elType === 'section' || elType === 'container' ) {
 				// Now widget is selected - insert preset at the end
 				targetContainer = selectedContainer;
 				insertPosition = undefined;
 			}
 		}
 
-		if (!targetContainer) {
+		if ( ! targetContainer ) {
 			return;
 		}
 
-		const elementData = relementify.extractElementDataFromPreset(presetCode);
+		const preset = relementify.getPresetsDataByID( id );
+		const presetCode = JSON.parse( preset.code );
+		const elementData = relementify.extractElementDataFromPreset( presetCode );
 
-		if (!elementData) {
+		if ( ! elementData ) {
 			return;
 		}
 
@@ -256,146 +252,144 @@ window.addEventListener('elementor/init', () => {
 			id: elementorCommon.helpers.getUniqueId(),
 			elType: elementData.elType || 'widget',
 			widgetType: elementData.widgetType,
-			settings: { ...elementData.settings } || {}
+			settings: { ...elementData.settings } || {},
 		};
 
 		// Update URLs if needed
-		if (presetCode.siteurl && relementify.wpInfo.restUrl) {
-			widgetData.settings = relementify.updateSettingsUrls(
-				widgetData.settings,
-				presetCode.siteurl,
-				relementify.wpInfo.restUrl
-			);
+		if ( presetCode.siteurl && relementify.wpInfo.restUrl ) {
+			widgetData.settings = relementify.updateSettingsUrls( widgetData.settings, presetCode.siteurl, relementify.wpInfo.restUrl );
 		}
 
 		// Insert the widget with position
 		const createOptions = {
 			model: widgetData,
-			container: targetContainer
+			container: targetContainer,
 		};
 
 		// Add position, if specified
-		if (insertPosition !== undefined) {
+		if ( insertPosition !== undefined ) {
 			createOptions.options = { at: insertPosition };
 		}
 
-		const result = await $e.run('document/elements/create', createOptions);
+		const result = await $e.run( 'document/elements/create', createOptions );
 
 		// Select the newly created element
-		if (result && result.id) {
-			setTimeout(() => {
-				$e.run('document/elements/select', {
-					container: elementor.getContainer(result.id)
-				});
-			}, 100);
+		if ( result && result.id ) {
+			setTimeout( () => {
+				$e.run( 'document/elements/select', {
+					container: elementor.getContainer( result.id ),
+				} );
+			}, 100 );
 		}
 	};
 
-	relementify.extractElementDataFromPreset = (presetCode) => {
-		if (presetCode.elements && presetCode.elements.length > 0) {
-			return presetCode.elements[0];
-		} else if (presetCode.elType && presetCode.widgetType) {
+	relementify.extractElementDataFromPreset = ( presetCode ) => {
+		if ( presetCode.elements && presetCode.elements.length > 0 ) {
+			return presetCode.elements[ 0 ];
+		} else if ( presetCode.elType && presetCode.widgetType ) {
 			return presetCode;
 		}
 		return null;
 	};
 
 	// Improved URL update method with better error handling
-	relementify.updateSettingsUrls = (settings, oldUrl, newUrl) => {
-		if (!settings || typeof settings !== 'object') {
+	relementify.updateSettingsUrls = ( settings, oldUrl, newUrl ) => {
+		if ( ! settings || typeof settings !== 'object' ) {
 			return settings;
 		}
 
 		try {
 			// Deep clone to avoid mutation
-			const updatedSettings = JSON.parse(JSON.stringify(settings));
+			const updatedSettings = JSON.parse( JSON.stringify( settings ) );
 
-			const updateUrls = (obj) => {
-				if (!obj || typeof obj !== 'object') return;
+			const updateUrls = ( obj ) => {
+				if ( ! obj || typeof obj !== 'object' ) {
+					return;
+				}
 
-				for (const key in obj) {
-					if (!obj.hasOwnProperty(key)) continue;
+				for ( const key in obj ) {
+					if ( ! obj.hasOwnProperty( key ) ) {
+						continue;
+					}
 
-					const value = obj[key];
+					const value = obj[ key ];
 
-					if (typeof value === 'string' && value.includes(oldUrl)) {
-						obj[key] = value.replace(new RegExp(oldUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), newUrl);
-					} else if (Array.isArray(value)) {
-						value.forEach(item => {
-							if (typeof item === 'object' && item !== null) {
-								updateUrls(item);
+					if ( typeof value === 'string' && value.includes( oldUrl ) ) {
+						obj[ key ] = value.replace( new RegExp( oldUrl.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ), 'g' ), newUrl );
+					} else if ( Array.isArray( value ) ) {
+						value.forEach( ( item ) => {
+							if ( typeof item === 'object' && item !== null ) {
+								updateUrls( item );
 							}
-						});
-					} else if (typeof value === 'object' && value !== null) {
-						updateUrls(value);
+						} );
+					} else if ( typeof value === 'object' && value !== null ) {
+						updateUrls( value );
 					}
 				}
 			};
 
-			updateUrls(updatedSettings);
+			updateUrls( updatedSettings );
 			return updatedSettings;
-
-		} catch (error) {
-			console.error('Error updating URLs in settings:', error);
+		} catch ( error ) {
+			console.error( 'Error updating URLs in settings:', error );
 			return settings; // Return original settings if update fails
 		}
 	};
 
 	relementify.syncPresets();
 
-	window.addEventListener('elementor/routes/open', (event) => {
+	window.addEventListener( 'elementor/routes/open', ( event ) => {
 		const panelType = event?.currentTarget?.$e?.routes?.currentArgs?.panel?.model?.attributes?.elType;
 
 		// Not a widget panel.
-		if (!relementify.isWidgetPanel(panelType)) {
-			if (relementify.hasPresetsToggleButton()) {
+		if ( ! relementify.isWidgetPanel( panelType ) ) {
+			if ( relementify.hasPresetsToggleButton() ) {
 				relementify.removePresetsToggleButton();
 			}
-			if (relementify.getPresetsPanelState()) {
+			if ( relementify.getPresetsPanelState() ) {
 				relementify.closePresetsPanel();
 			}
 			return;
 		}
 
 		// Add presets button, if it doesn't exist.
-		if (!relementify.hasPresetsToggleButton()) {
+		if ( ! relementify.hasPresetsToggleButton() ) {
 			relementify.addPresetsToggleButton();
 		}
-	});
+	} );
 
-	window.addEventListener('elementor/routes/close', (event) => {
+	window.addEventListener( 'elementor/routes/close', ( event ) => {
 		const panelType = event?.currentTarget?.$e?.routes?.currentArgs?.panel?.model?.attributes?.elType;
 
-		if (relementify.isWidgetPanel(panelType)) {
+		if ( relementify.isWidgetPanel( panelType ) ) {
 			return;
 		}
 
 		relementify.closePresetsPanel();
 		relementify.removePresetsToggleButton();
-	});
+	} );
 
-	window.addEventListener('elementor/commands/run/after', (event) => {
+	window.addEventListener( 'elementor/commands/run/after', ( event ) => {
 		const isDeselectAll = 'document/elements/deselect-all' === event.detail.command;
 		const isDeselect = 'document/elements/deselect' === event.detail.command;
 		const isSelect = 'document/elements/select' === event.detail.command;
 
 		// Close presets panel when `deselect` or `deselect all` event triggered.
-		if (isDeselectAll || isDeselect) {
+		if ( isDeselectAll || isDeselect ) {
 			relementify.closePresetsPanel();
-			relementify.setPresetsWidget('');
+			relementify.setPresetsWidget( '' );
 			return;
 		}
 
 		// Get widget type when `select` event triggered.
-		if (isSelect) {
-			const currentWidget = event?.detail?.args?.container?.model?.get('widgetType');
-			relementify.setPresetsWidget(currentWidget);
+		if ( isSelect ) {
+			const currentWidget = event?.detail?.args?.container?.model?.get( 'widgetType' );
+			relementify.setPresetsWidget( currentWidget );
 
-			if (relementify.getPresetsPanelState()) {
+			if ( relementify.getPresetsPanelState() ) {
 				relementify.populatePresetsCategories();
 			}
-
-			return;
+			// return;
 		}
-	});
-});
+	} );
+} );
