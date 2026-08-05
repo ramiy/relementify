@@ -76,12 +76,12 @@ window.addEventListener( 'elementor/init', () => {
 						<div class="${ relementify.selectors.presetPanelCategoryClass }" id="${ relementify.selectors.presetPanelCategoryClass }-pro"></div>
 					</details>
 					<details name="presets-category">
-						<summary>${relementify.translations.presetsCategoryMyLocal}</summary>
-						<div class="${relementify.selectors.presetPanelCategoryClass}" id="${relementify.selectors.presetPanelCategoryClass}-local"></div>
+						<summary>${ relementify.translations.presetsCategoryMyLocal }</summary>
+						<div class="${ relementify.selectors.presetPanelCategoryClass }" id="${ relementify.selectors.presetPanelCategoryClass }-local"></div>
 					</details>
 					<details name="presets-category">
-						<summary>${relementify.translations.presetsCategoryMyCloud}</summary>
-						<div class="${relementify.selectors.presetPanelCategoryClass}" id="${relementify.selectors.presetPanelCategoryClass}-cloud"></div>
+						<summary>${ relementify.translations.presetsCategoryMyCloud }</summary>
+						<div class="${ relementify.selectors.presetPanelCategoryClass }" id="${ relementify.selectors.presetPanelCategoryClass }-cloud"></div>
 					</details>
 				</div>
 			</div>
@@ -145,9 +145,9 @@ window.addEventListener( 'elementor/init', () => {
 
 	relementify.getPresetsDataByID = ( id ) => relementify.getPresetsData().find( ( preset ) => parseInt( id ) === preset.id );
 
-	relementify.getLocalPresetsDataByID = (id) => relementify.localPresets.find((preset) => id === preset.id)
+	relementify.getLocalPresetsDataByID = ( id ) => relementify.localPresets.find( ( preset ) => id === preset.id );
 
-	relementify.loadRemotePresets = async (widget = '') => {
+	relementify.loadRemotePresets = async ( widget = '' ) => {
 		let fullUrl = 'https://relementify.com/wp-json/relementify/v1/presets/';
 		if ( widget ) {
 			const queryParams = { widget };
@@ -161,13 +161,13 @@ window.addEventListener( 'elementor/init', () => {
 
 	relementify.loadCloudPresets = async () => {
 		// TODO: implement this.
-	}
+	};
 
 	relementify.syncPresets = async () => {
 		const remotePreset = await relementify.loadRemotePresets();
 		// const cloudPreset = await relementify.loadCloudPresets();
-		relementify.setPresetsData(remotePreset);
-		if (relementify.getPresetsPanelState()) {
+		relementify.setPresetsData( remotePreset );
+		if ( relementify.getPresetsPanelState() ) {
 			relementify.populatePresetsCategories();
 		}
 	};
@@ -183,9 +183,9 @@ window.addEventListener( 'elementor/init', () => {
 	relementify.getCategoryClass = ( category ) => `${ relementify.selectors.presetPanelCategoryClass }-${ category }`;
 
 	relementify.clearCategories = () => {
-		const categories = ['basic', 'pro', 'local', 'cloud'];
-		const categoryElements = categories.map((category) => document.getElementById(relementify.getCategoryClass(category)));
-		categoryElements.forEach((categoryElement) => categoryElement.innerHTML = '');
+		const categories = [ 'basic', 'pro', 'local', 'cloud' ];
+		const categoryElements = categories.map( ( category ) => document.getElementById( relementify.getCategoryClass( category ) ) );
+		categoryElements.forEach( ( categoryElement ) => categoryElement.innerHTML = '' );
 	};
 
 	relementify.createPresetButton = ( preset ) => {
@@ -202,8 +202,8 @@ window.addEventListener( 'elementor/init', () => {
 		return `<div class="widget-preset">${ content }${ actionButtons }</div>`;
 	};
 
-	relementify.createLocalPresetButton = (preset) => {
-		return `<button type="button" class="widget-preset" onClick="relementify.applyPresetStyles('${preset?.id}', true)">${preset?.title}</button>`;
+	relementify.createLocalPresetButton = ( preset ) => {
+		return `<button type="button" class="widget-preset" onClick="relementify.applyPresetStyles('${ preset?.id }', true)">${ preset?.title }</button>`;
 	};
 
 	relementify.loadBasicPresets = async () => {
@@ -227,27 +227,34 @@ window.addEventListener( 'elementor/init', () => {
 	relementify.loadLocalPresets = () => {
 		const currentCategory = 'local';
 		const currentWidget = relementify.getCurrentWidget();
-		const widgetPreset = (relementify.hasPresetsData())
-			? relementify.localPresets.filter((preset) => preset.widget === currentWidget)
+		const widgetPreset = ( relementify.hasPresetsData() )
+			? relementify.localPresets.filter( ( preset ) => preset.widget === currentWidget )
 			: [];
-		const presetsHtml = widgetPreset.map((preset) => relementify.createLocalPresetButton(preset)).join('');
-		const categoryClass = relementify.getCategoryClass(currentCategory);
-		document.getElementById(categoryClass).insertAdjacentHTML('beforeend', presetsHtml || relementify.translations.noLocalPresets);
+		const presetsHtml = widgetPreset.map( ( preset ) => relementify.createLocalPresetButton( preset ) ).join( '' );
+		const categoryClass = relementify.getCategoryClass( currentCategory );
+		document.getElementById( categoryClass ).insertAdjacentHTML( 'beforeend', presetsHtml || relementify.translations.noLocalPresets );
 	};
 
 	relementify.loadCloudPresets = async () => {
 		// TODO: implement this.
 		const currentCategory = 'cloud';
 		const presetsHtml = '';
-		const categoryClass = relementify.getCategoryClass(currentCategory);
-		document.getElementById(categoryClass).insertAdjacentHTML('beforeend', presetsHtml || relementify.translations.noCloudPresets);
+		const categoryClass = relementify.getCategoryClass( currentCategory );
+		document.getElementById( categoryClass ).insertAdjacentHTML( 'beforeend', presetsHtml || relementify.translations.noCloudPresets );
 	};
 
-	relementify.applyPresetStyles = async (id, isLocal = false) => {
+	relementify.applyPresetStyles = async ( id, isLocal = false ) => {
 		const storageKey = 'relementify-preset-styles';
 		const preset = isLocal
-			? relementify.getLocalPresetsDataByID(id)
-			: relementify.getPresetsDataByID(id);
+			? relementify.getLocalPresetsDataByID( id )
+			: relementify.getPresetsDataByID( id );
+
+		elementorCommon.storage.set( storageKey, JSON.parse( preset.code ) );
+		$e.run( 'document/elements/paste-style', {
+			storageKey,
+			containers: Object.values( elementor.selection.elements ),
+		} );
+	};
 
 	relementify.insertPreset = async ( id ) => {
 		const selectedContainers = elementor.selection.getElements();

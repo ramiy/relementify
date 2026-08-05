@@ -1,14 +1,14 @@
-window.addEventListener('elementor/init', () => {
-
+window.addEventListener( 'elementor/init', () => {
 	relementify.savePresetLocally = () => {
-		const data = Object.values(elementor.selection.elements).map((container) => container.model.toJSON());
+		const data = Object.values( elementor.selection.elements ).map( ( container ) => container.model.toJSON() );
 
-		if (relementify.localPresets === undefined || !Array.isArray(relementify.localPresets)) {
+		if ( relementify.localPresets === undefined || ! Array.isArray( relementify.localPresets ) ) {
 			relementify.localPresets = [];
 		}
 
-		if (data.length === 0) {
-			alert(relementify.translations.presetNotSavedLocally);
+		if ( data.length === 0 ) {
+			// eslint-disable-next-line no-alert -- The editor needs immediate feedback when no element is selected.
+			window.alert( relementify.translations.presetNotSavedLocally );
 			return;
 		}
 
@@ -18,18 +18,18 @@ window.addEventListener('elementor/init', () => {
 				{
 					type: 'elementor',
 					siteurl: 'http://relementify.com/wp-json/',
-					elements: [ data[0] ]
-				}
+					elements: [ data[ 0 ] ],
+				},
 			),
-			id: data[0].id,
+			id: data[ 0 ].id,
 			image: '',
-			title: `${data[0].widgetType} ${data[0].id}`,
-			widget: data[0].widgetType
+			title: `${ data[ 0 ].widgetType } ${ data[ 0 ].id }`,
+			widget: data[ 0 ].widgetType,
 		};
 
-		relementify.localPresets.push(preset);
+		relementify.localPresets.push( preset );
 
-		jQuery.ajax({
+		window.jQuery.ajax( {
 			url: relementify.wpInfo.ajaxUrl,
 			method: 'POST',
 			data: {
@@ -37,15 +37,14 @@ window.addEventListener('elementor/init', () => {
 				nonce: relementify.wpInfo.ajaxNonce,
 				presets: relementify.localPresets,
 			},
-		});
-	}
+		} );
+	};
 
 	relementify.savePresetToCloud = () => {
 		// TODO: implement this.
-	}
+	};
 
-	elementor.hooks.addFilter('elements/context-menu/groups', (customGroups, elementType) => {
-
+	elementor.hooks.addFilter( 'elements/context-menu/groups', ( customGroups, elementType ) => {
 		const newGroup = {
 			name: 'relementify',
 			actions: [
@@ -62,13 +61,12 @@ window.addEventListener('elementor/init', () => {
 					callback: () => relementify.savePresetToCloud(),
 				},
 			],
-		}
+		};
 
-		if ('widget' === elementType) {
-			customGroups.push(newGroup);
+		if ( 'widget' === elementType ) {
+			customGroups.push( newGroup );
 		}
 
 		return customGroups;
-	});
-
-});
+	} );
+} );
